@@ -1,0 +1,13 @@
+<form [formGroup]="form" (ngSubmit)="submitForm()">
+  <input type="text" [formControlName]="'username'"/>
+  <div *ngIf="form?.get('username')?.invalid && (form?.get('username')?.dirty || form?.get('username')?.touched)"
+       class="alert alert-danger">
+    <div *ngIf="form?.get('username')?.errors?.['required']">
+      Name is required.
+    </div>
+    <div *ngIf="form?.get('username')?.errors?.['minlength']">
+      Name must be at least 4 characters long.
+    </div>
+  </div>
+  <button [disabled]="!form.valid" type="submit" >Submit</button>
+</form>
