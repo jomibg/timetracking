@@ -1,0 +1,15 @@
+nav{
+  background-color: #333333;
+  display: flex;
+  align-items: center;
+}
+nav  a{
+  color: #e7e7e7;
+  padding: 24px;
+  display: block;
+  text-decoration: none;
+}
+
+nav a:hover, a:focus{
+  background-color: #272727;
+}

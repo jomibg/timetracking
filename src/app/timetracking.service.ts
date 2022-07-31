@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Stopwatch} from "./stopwatch";
 import {LoginService} from "./login.service";
+import {first} from "rxjs";
+import {compareNumbers} from "@angular/compiler-cli/src/version_helpers";
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +12,19 @@ import {LoginService} from "./login.service";
 export class TimetrackingService {
 
   sw:Stopwatch = new Stopwatch();
-  constructor(private loginService:LoginService) {
 
+  constructor(private loginService:LoginService) {
+  }
+
+  fst():number|undefined{
+    return this.loginService.currentUser?.time_1st;}
+
+  snd():number|undefined{
+    return this.loginService.currentUser?.time_2nd;
+  }
+
+  trd():number|undefined{
+    return this.loginService.currentUser?.time_3rd;
   }
 
   startFirst():void{

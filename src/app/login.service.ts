@@ -4,6 +4,7 @@ import {User} from "./user";
 import {Router} from "@angular/router";
 import {TimetrackingService} from "./timetracking.service";
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,33 +14,32 @@ export class LoginService {
   currentUser?:User;
   userDB: { [key:string]: User } = {};
 
-
-  getOrCrate(usrname:string):void{
-    if(this.userDB[usrname]) {
-      this.currentUser = this.userDB[usrname];
-
+  getOrCrate(username:string):void{
+    let DB = localStorage.getItem('DB') || '';
+    this.userDB = JSON.parse(DB);
+    if (this.userDB[username]){
+      this.currentUser = this.userDB[username];
     }
-     else {
-      this.currentUser={
-        username:usrname,
-        time_1st:0,
-        time_2nd:0,
-        time_3rd:0
-      }
-      this.userDB[usrname] = this.currentUser;
+    else {
+      let user = new User(username, 0, 0, 0);
+      this.userDB[username] = user;
+      this.currentUser = user;
     }
-    localStorage.setItem('user',usrname);
-     this.router.navigate(['']);
+    localStorage.setItem('user',username);
+    this.router.navigate(['']);
   }
 
   logout():void{
+    console.log(this.userDB);
     if (this.currentUser != undefined) {
       this.userDB[this.currentUser?.username] = this.currentUser;
     }
     this.currentUser = undefined;
-    localStorage.clear();
+    localStorage.setItem('DB',JSON.stringify(this.userDB));
+    localStorage.removeItem('user');
     this.router.navigate(['/login'])
   }
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+  }
 }
